@@ -1,9 +1,31 @@
 import axios from 'axios';
 
-const API_BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+const formatApiBase = () => {
+  let url = (import.meta.env.VITE_API_URL || '').trim();
+
+  // If unset, default to local development backend
+  if (!url) {
+    return 'http://127.0.0.1:8000/api';
+  }
+
+  // Remove trailing slashes
+  url = url.replace(/\/+$/, '');
+
+  // If protocol is missing (e.g. Render property: host returns just "host.onrender.com")
+  if (!url.startsWith('http://') && !url.startsWith('https://')) {
+    if (url.startsWith('localhost') || url.startsWith('127.0.0.1')) {
+      url = `http://${url}`;
+    } else {
+      url = `https://${url}`;
+    }
+  }
+
+  // Ensure /api is at the end
+  return url.endsWith('/api') ? url : `${url}/api`;
+};
 
 const api = axios.create({
-  baseURL: `${API_BASE}/api`,
+  baseURL: formatApiBase(),
   headers: {
     'Content-Type': 'application/json',
   },

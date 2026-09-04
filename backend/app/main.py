@@ -6,19 +6,36 @@ from app.routes import auth, products, orders, reports, farmers, cart, notificat
 
 app = FastAPI(title=settings.PROJECT_NAME)
 
+origins = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "http://localhost:5174",
+    "http://127.0.0.1:5174",
+    "http://localhost:5175",
+    "http://127.0.0.1:5175",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+    "https://agrilink-frontend-ektn.onrender.com",
+]
+
+# Append FRONTEND_URL from environment if defined
+if settings.FRONTEND_URL:
+    for url in settings.FRONTEND_URL.split(","):
+        clean_url = url.strip().rstrip("/")
+        if clean_url:
+            if not clean_url.startswith("http://") and not clean_url.startswith("https://"):
+                secure_url = f"https://{clean_url}"
+                if secure_url not in origins:
+                    origins.append(secure_url)
+            elif clean_url not in origins:
+                origins.append(clean_url)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-        "http://localhost:5174",
-        "http://127.0.0.1:5174",
-        "http://localhost:5175",
-        "http://127.0.0.1:5175",
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-    ],
-    allow_origin_regex=r"^https?://(localhost|127\.0\.0\.1)(:\d+)?$",
+    allow_origins=origins,
+    allow_origin_regex=r"^https?://([a-zA-Z0-9-]+\.)*(onrender\.com|vercel\.app|netlify\.app|localhost|127\.0\.0\.1)(:\d+)?$",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

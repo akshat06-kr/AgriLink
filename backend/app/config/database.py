@@ -9,7 +9,8 @@ class Database:
 db_config = Database()
 
 def connect_to_mongo():
-    print(f"Connecting to MongoDB at {settings.MONGODB_URL}")
+    masked_url = settings.MONGODB_URL.split("@")[-1] if "@" in settings.MONGODB_URL else settings.MONGODB_URL
+    print(f"Connecting to MongoDB host: {masked_url}")
     try:
         db_config.client = MongoClient(
             settings.MONGODB_URL,
