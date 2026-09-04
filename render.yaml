@@ -10,23 +10,13 @@ services:
     healthCheckPath: /api/health
     autoDeploy: true
     envVars:
+      - fromGroup: AgriLink-Production
       - key: PYTHON_VERSION
         value: "3.11.9"
-      - key: MONGO_URI
-        sync: false
-      - key: DATABASE_NAME
-        value: agrilink_db
-      - key: JWT_SECRET
-        generateValue: true
       - key: JWT_ALGORITHM
         value: HS256
       - key: ACCESS_TOKEN_EXPIRE_MINUTES
         value: "10080"
-      - key: FRONTEND_URL
-        fromService:
-          type: web
-          name: agrilink-frontend
-          property: host
 
   # -------------------------------------------------------------
   # 2. React + Vite Frontend Static Site
