@@ -82,7 +82,14 @@ def login(user_credentials: UserLogin, db=Depends(get_db)):
     clean_email = user_credentials.email.strip().lower()
     
     # 1. Look up user case-insensitively by email
-    user = users_collection.find_one({"email": {"$regex": f"^{re.escape(clean_email)}$", "$options": "i"}})
+    try:
+        user = users_collection.find_one({"email": {"$regex": f"^{re.escape(clean_email)}$", "$options": "i"}})
+    except Exception as e:
+        print(f"[Auth] Database lookup error during login: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Database connection error. Please verify that MONGO_URI is set correctly in Render environment variables."
+        )
     if not user:
         raise HTTPException(status_code=401, detail="Invalid email or password.")
         

@@ -70,7 +70,17 @@ def root():
 
 @app.get("/api/health")
 def health_check():
+    from app.config.database import db_config
+    db_connected = False
+    try:
+        if db_config.client:
+            db_config.client.admin.command("ping")
+            db_connected = True
+    except Exception:
+        db_connected = False
+
     return {
         "status": "ok",
-        "message": "AgriLink backend is running"
+        "message": "AgriLink backend is running",
+        "database": "connected" if db_connected else "disconnected"
     }
