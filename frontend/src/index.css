@@ -1,0 +1,150 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-surface-50 text-slate-800 font-sans antialiased selection:bg-emerald-500 selection:text-white;
+  }
+
+  /* ── Universal Button Hover & Active Physics ── */
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]) {
+    @apply cursor-pointer;
+    transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.22s ease,
+                background-color 0.2s ease,
+                border-color 0.2s ease,
+                opacity 0.2s ease;
+  }
+
+  button:not(:disabled):hover,
+  [role="button"]:not([aria-disabled="true"]):hover {
+    transform: translateY(-2px);
+  }
+
+  button:not(:disabled):active,
+  [role="button"]:not([aria-disabled="true"]):active {
+    transform: translateY(1px) scale(0.97);
+  }
+
+  /* ── Universal Interactive Card Hover Physics ── */
+  .card,
+  .card-hover,
+  .shadow-premium,
+  .bg-white.rounded-3xl,
+  .bg-white.rounded-2xl {
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.3s ease,
+                border-color 0.3s ease;
+  }
+
+  .card:hover,
+  .card-hover:hover,
+  .shadow-premium:hover,
+  .bg-white.rounded-3xl:hover,
+  .bg-white.rounded-2xl:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px -12px rgba(5, 150, 105, 0.18),
+                0 8px 20px -6px rgba(15, 23, 42, 0.08);
+    border-color: rgba(5, 150, 105, 0.35);
+  }
+
+  /* Smooth scrollbars */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #f1f5f9;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #059669;
+  }
+}
+
+@layer components {
+  /* ── Enhanced Primary Buttons with Shimmer Light Sweep ── */
+  .btn-primary {
+    @apply relative overflow-hidden bg-gradient-to-r from-agri-green via-emerald-600 to-agri-light text-white font-bold py-2.5 px-6 rounded-2xl shadow-premium transition-all duration-300;
+  }
+
+  .btn-primary:hover {
+    @apply shadow-premium-hover -translate-y-1;
+    box-shadow: 0 16px 36px -10px rgba(5, 150, 105, 0.45);
+  }
+
+  .btn-primary::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+    transform: skewX(-20deg);
+    transition: left 0.75s ease;
+  }
+
+  .btn-primary:hover::after {
+    left: 200%;
+  }
+
+  .btn-secondary {
+    @apply bg-white text-agri-green border border-agri-green/30 font-bold py-2.5 px-6 rounded-2xl shadow-sm transition-all duration-300;
+  }
+
+  .btn-secondary:hover {
+    @apply bg-emerald-50/80 border-agri-green -translate-y-1 shadow-md;
+    box-shadow: 0 10px 25px -8px rgba(5, 150, 105, 0.25);
+  }
+
+  /* ── Interactive Input Fields ── */
+  .input-field {
+    @apply w-full border border-slate-200 rounded-2xl px-4 py-3 bg-slate-50/60 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 text-slate-800 transition-all duration-300;
+  }
+
+  .input-field:hover {
+    @apply border-slate-300 bg-white;
+  }
+}
+
+/* ── Interactive Image Zoom ── */
+.hover-zoom {
+  @apply overflow-hidden;
+}
+
+.hover-zoom img,
+.hover-zoom span {
+  @apply transition-transform duration-500 ease-out;
+}
+
+.hover-zoom:hover img,
+.hover-zoom:hover span {
+  @apply scale-110;
+}
+
+/* ── Interactive Glow & Badge Bounce ── */
+.badge-interactive {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.badge-interactive:hover {
+  transform: scale(1.06);
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.15);
+}
+
+/* ── Table Row Highlight ── */
+tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+tbody tr:hover {
+  background-color: rgba(5, 150, 105, 0.035);
+}

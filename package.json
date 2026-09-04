@@ -1,0 +1,16 @@
+{
+  "name": "agrichain",
+  "version": "1.0.0",
+  "description": "AgriLink - Direct Farmer to Consumer Marketplace",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "start": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "frontend": "npm --prefix frontend run dev",
+    "backend": "powershell -ExecutionPolicy Bypass -File ./start-backend.ps1",
+    "build": "npm --prefix frontend run build"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.5"
+  }
+}
